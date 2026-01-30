@@ -16,9 +16,7 @@ class premiumPlan{
         bool isActive;
         bool isPaid;
     public:
-        premiumPlan(int a,string b,string c,string d):planID(a),name(b),username(c),usermail(d),weight(0.0),packagePrice(0.0),discountPercent(0.0),isActive(false),isPaid(false),finalPrice(0.0){
-            planCounter++;
-        }
+        premiumPlan(string b,string c,string d):planID(++planCounter),name(b),username(c),usermail(d),weight(0.0),packagePrice(0.0),discountPercent(0.0),isActive(false),isPaid(false),finalPrice(0.0){}
         premiumPlan(const premiumPlan& other);
         static int getPlanCounter();
         int getPlanID() const;
@@ -31,7 +29,6 @@ class premiumPlan{
         double getFinalPrice() const;
         bool getIsActive() const;
         bool getIsPaid() const;
-        void setplanID(int e);
         void setName(string f);
         void setUsername(string g);
         void setUsermail(string h);
@@ -50,8 +47,8 @@ class premiumPlan{
         bool hasDonePaymentProcess();
         void displayPlanDetails();
         void dietChart();
-        double daily_calorie_burner_tracker();
         double daily_calorie_intake_tracker();
+        double daily_calorie_burner_tracker();
         void net_calorie_per_day_tracker();
         void famousRandQuotes();
         void sigma_power_index();
@@ -114,10 +111,6 @@ bool premiumPlan::getIsPaid() const{
 
 double premiumPlan::getFinalPrice() const{
     return finalPrice;
-}
-
-void premiumPlan::setplanID(int e){
-    planID=e;
 }
 
 void premiumPlan::setName(string f){
@@ -241,7 +234,6 @@ double premiumPlan::finalPricing(){
 }
 
 bool premiumPlan::hasDonePaymentProcess(){
-    applyPromoCodeDeal();
     double fp=finalPricing();
     finalPrice=fp;
     cout<<"Your total payable amount is : "<<fp<<" taka only"<<endl;
@@ -363,11 +355,165 @@ void premiumPlan::dietChart(){
     }
 }
 
-double daily_calorie_burner_tracker(){
-    
+double premiumPlan::daily_calorie_intake_tracker(){
+    map<string,double>foodCalories={
+        {"rice",130}, {"brownrice",112}, {"roti",120}, {"chapati",120},
+        {"paratha",260}, {"naan",270}, {"khichuri",180}, {"pulao",220},
+        {"biryani",350}, {"friedrice",250}, {"dal",160},
+        {"chickencurry",240}, {"chickenfry",300}, {"beefcurry",280},
+        {"muttoncurry",330}, {"fishcurry",200}, {"friedfish",260},
+        {"eggcurry",210}, {"omelet",150}, {"boiledegg",78},
+        {"vegetablecurry",150}, {"bharta",180}, {"salad",70},
+        {"chickpeas",220}, {"paneercurry",320},
+        {"burger",300}, {"sandwich",260}, {"shawarma",350},
+        {"pizza",285}, {"fries",365}, {"friedchicken",320},
+        {"roll",290}, {"momos",240}, {"chowmein",300}, {"pasta",320},
+        {"samosa",260}, {"singara",250}, {"pakora",200},
+        {"biscuits",150}, {"cake",340}, {"donut",280},
+        {"chocolate",230},
+        {"banana",105}, {"apple",95}, {"mango",200},
+        {"orange",62}, {"milk",122}, {"lassi",220},
+        {"tea",90}, {"softdrink",140}
+    };
+    int items;
+    cout<<"Enter the number of food items consumed today: ";
+    cin>>items;
+    double totalCalories=0.0;
+    for (int i=1; i<=items;i++) {
+        string food;
+        int servings;
+        cout <<"Food "<<i<<"name(lowercase, no spaces):";
+        cin>>food;
+        cout<<"Servings: ";
+        cin>>servings;
+        if(foodCalories.count(food)){
+            totalCalories+=foodCalories[food]*servings;
+        }else{
+            cout<<"Food not found"<<endl;
+            cout<<"Select food category: "<<endl;
+            cout<<"1. Staple "<<endl;
+            cout<<"2. Protein "<<endl;
+            cout<<"3. Vegetable/Fruits "<<endl;
+            cout<<"4. Fast Food "<<endl;
+            cout<<"5.Sweet "<<endl;
+            int choice;
+            cin>>choice;
+            double estimatedCalories=0.0;
+
+            switch(choice){
+                case 1:estimatedCalories=200; break;
+                case 2:estimatedCalories=250; break;
+                case 3:estimatedCalories=120; break;
+                case 4:estimatedCalories=350; break;
+                case 5:estimatedCalories=300; break;
+                default:
+                    cout <<"Invalid choice.Skipped"<<endl;
+                    continue;
+            }
+            totalCalories+=estimatedCalories*servings;
+        }
+    }
+    cout<<"Total daily calorie intake: "<<totalCalories<<" kcal"<<endl;
+    return totalCalories;
 }
-double daily_calorie_intake_tracker(){
-    
+
+double premiumPlan::daily_calorie_burner_tracker() {
+    map<string, double> activityBurnRate = {
+        {"walking", 4.0},
+        {"fast walking", 5.5},
+        {"running", 10.0},
+        {"sprinting", 15.0},
+        {"cycling", 8.0},
+        {"skipping", 12.0},
+        {"pushups", 8.5},
+        {"situps", 7.5},
+        {"gym workout", 9.0},
+        {"weight lifting", 6.0},
+        {"cardio", 10.5},
+        {"yoga", 3.0},
+        {"stretching", 2.5},
+        {"meditation", 1.5},
+        {"football", 9.5},
+        {"cricket", 6.5},
+        {"badminton", 7.5},
+        {"basketball", 9.0},
+        {"swimming", 11.0},
+        {"stair climbing", 8.5},
+        {"household work", 3.5},
+        {"cleaning", 4.0},
+        {"gardening", 4.5}
+    };
+
+    int n;
+    cout << "Enter number of activities performed today: ";
+    cin >> n;
+
+    cin.ignore();
+    double totalBurned = 0.0;
+
+    for(int i = 0; i < n; i++) {
+        string activity;
+        double minutes;
+
+        cout << endl << "Enter activity name: ";
+        getline(cin, activity);
+
+        cout << "Enter duration (in minutes): ";
+        cin >> minutes;
+        cin.ignore();
+
+        double burnPerMinute;
+
+        if(activityBurnRate.count(activity)) {
+            burnPerMinute = activityBurnRate[activity];
+        } else {
+            cout << "Activity not found. Estimating average burn..." << endl;
+            burnPerMinute = 5.0;
+        }
+
+        double burned = burnPerMinute * minutes;
+        totalBurned += burned;
+
+        cout << "Calories burned from " << activity << ": "
+             << burned << " kcal" << endl;
+    }
+
+    cout << endl << "Total calories burned today: "
+         << totalBurned << " kcal" << endl;
+
+    return totalBurned;
+}
+
+void premiumPlan::net_calorie_per_day_tracker() {
+    double intake = daily_calorie_intake_tracker();
+    cout << endl;
+
+    double burned = daily_calorie_burner_tracker();
+    cout << endl;
+
+    double netCalories = intake - burned;
+
+    cout<<"Your daily calorie stats is loading..."<<endl;
+    Sleep(2000);
+    cout << "Total Calorie Intake  : " << intake << " kcal" << endl;
+    cout << "Total Calories Burned : " << burned << " kcal" << endl;
+    cout << "Net Calories (Intake - Burned): "
+         << netCalories << " kcal" << endl;
+
+    cout << endl;
+
+    if(netCalories > 300) {
+        cout << "Status : CALORIE SURPLUS" << endl;
+        cout << "Impact : Likely weight gain if continued." << endl;
+    }
+    else if(netCalories >= -300 && netCalories <= 300) {
+        cout << "Status : CALORIE MAINTENANCE" << endl;
+        cout << "Impact : Weight likely to remain stable." << endl;
+    }
+    else {
+        cout << "Status : CALORIE DEFICIT" << endl;
+        cout << "Impact : Likely weight loss if maintained." << endl;
+    }
 }
 
 int main(){
