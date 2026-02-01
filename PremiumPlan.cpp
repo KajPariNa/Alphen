@@ -706,83 +706,152 @@ void premiumPlan::sigma_power_index(){
     }
 }
 
-int main()
+void listUsers(const vector<premiumPlan>& users)
 {
-    srand(time(0));
-
-    int n;
-    cout << "Enter number of premium users: ";
-    cin >> n;
-    cin.ignore(numeric_limits<streamsize>::max(),'\n');
-    vector<premiumPlan> users;
-
-    for (int i = 0; i < n; i++)
+    if (users.empty())
     {
-        string name, username, email;
-
-        cout << "\nEnter details for user " << i + 1 << endl;
-        cout << "Name: ";
-        getline(cin,name);
-
-        cout << "Username: ";
-        getline(cin,username);
-
-        cout << "Email: ";
-        getline(cin,email);
-
-        users.push_back(premiumPlan(name, username, email));
+        cout << "No premium users available.\n";
+        return;
     }
 
-    int userIndex;
+    cout << "\n--- Registered Premium Users ---\n";
+    for (size_t i = 0; i < users.size(); i++)
+    {
+        cout << i + 1 << ". "
+             << users[i].getName()
+             << " (" << users[i].getUsername() << ")\n";
+    }
+}
+
+
+int main(){
+    srand(time(0));
+
+    vector<premiumPlan> users;
     int choice = -1;
 
     while (choice != 0)
     {
-        cout << "\nSelect user index (1 - " << n << "): ";
-        cin >> userIndex;
+        cout << "========= ALPHEN PREMIUM SYSTEM ========="<<endl;;
+        cout << "1. Add New Premium User"<<endl;;
+        cout << "2. Delete Premium User"<<endl;;
+        cout << "3. List All Users"<<endl;;
+        cout << "4. Select User & Open Premium Menu"<<endl;;
+        cout << "0. Exit Program"<<endl;;
+        cout << "Enter choice: "<<endl;;
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(),'\n');
 
-        if (userIndex < 1 || userIndex > n)
+        if (choice == 1)
         {
-            cout << "Invalid user index."<<endl;
-            continue;
+            string name, username, email;
+
+            cout << "Name: ";
+            getline(cin, name);
+
+            cout << "Username: ";
+            getline(cin, username);
+
+            cout << "Email: ";
+            getline(cin, email);
+
+            premiumPlan newUser(name, username, email);
+            users.push_back(newUser);
+
+            cout << "Premium user added successfully.\n";
         }
 
-        premiumPlan &pp = users[userIndex - 1];
-
-        cout << "========== ALPHEN PREMIUM MENU =========="<<endl;
-        cout << "1. Display Plan Details"<<endl;
-        cout << "2. Apply Promo Code Deal"<<endl;
-        cout << "3. Complete Payment Process"<<endl;
-        cout << "4. Activate Premium Plan"<<endl;
-        cout << "5. Deactivate Premium Plan"<<endl;
-        cout << "6. Show Diet Chart"<<endl;
-        cout << "7. Daily Calorie Intake Tracker"<<endl;
-        cout << "8. Daily Calorie Burn Tracker"<<endl;
-        cout << "9. Net Calorie Per Day Tracker"<<endl;
-        cout << "10. Show Random Motivational Quote"<<endl;
-        cout << "11. Calculate Sigma Power Index"<<endl;
-        cout << "12. Print Full Plan Using Operator<<"<<endl;
-        cout << "0. Exit Program\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        switch (choice)
+        else if (choice == 2)
         {
-            case 1: pp.displayPlanDetails(); break;
-            case 2: pp.applyPromoCodeDeal(); break;
-            case 3: pp.hasDonePaymentProcess(); break;
-            case 4: pp.activatePremiumPlan(); break;
-            case 5: pp.deactivatePremiumPlan(); break;
-            case 6: pp.dietChart(); break;
-            case 7: pp.daily_calorie_intake_tracker(); break;
-            case 8: pp.daily_calorie_burner_tracker(); break;
-            case 9: pp.net_calorie_per_day_tracker(); break;
-            case 10: pp.famousRandQuotes(); break;
-            case 11: pp.sigma_power_index(); break;
-            case 12: cout << pp << endl; break;
-            case 0: cout << "Exiting Alphen Premium System..."; break;
-            default: cout << "Invalid choice.";
+            listUsers(users);
+            if (users.empty()) continue;
+
+            int index;
+            cout << "Enter user number to delete: ";
+            cin >> index;
+
+            if (index < 1 || index > users.size())
+            {
+                cout << "Invalid selection.\n";
+            }
+            else
+            {
+                users.erase(users.begin() + index - 1);
+                cout << "User deleted successfully.\n";
+            }
+        }
+
+        else if (choice == 3)
+        {
+            listUsers(users);
+        }
+
+        else if (choice == 4)
+        {
+            listUsers(users);
+            if (users.empty()) continue;
+
+            int userIndex;
+            cout << "Select user number: ";
+            cin >> userIndex;
+
+            if (userIndex < 1 || userIndex > users.size())
+            {
+                cout << "Invalid user index.\n";
+                continue;
+            }
+
+            premiumPlan &pp = users[userIndex - 1];
+            int subChoice = -1;
+
+            while (subChoice != 0)
+            {
+                cout << "====== PREMIUM USER MENU ======"<<endl;
+                cout << "1. Display Plan Details"<<endl;
+                cout << "2. Apply Promo Code Deal"<<endl;
+                cout << "3. Complete Payment Process"<<endl;
+                cout << "4. Activate Premium Plan"<<endl;
+                cout << "5. Deactivate Premium Plan"<<endl;
+                cout << "6. Show Diet Chart"<<endl;
+                cout << "7. Daily Calorie Intake Tracker"<<endl;
+                cout << "8. Daily Calorie Burn Tracker"<<endl;
+                cout << "9. Net Calorie Per Day Tracker"<<endl;
+                cout << "10. Show Random Motivational Quote"<<endl;
+                cout << "11. Calculate Sigma Power Index"<<endl;
+                cout << "12. Print Full Plan (operator<<)"<<endl;
+                cout << "0. Back to Main Menu"<<endl;
+                cout << "Enter choice: "<<endl;
+                cin >> subChoice;
+
+                switch (subChoice)
+                {
+                    case 1: pp.displayPlanDetails(); break;
+                    case 2: pp.applyPromoCodeDeal(); break;
+                    case 3: pp.hasDonePaymentProcess(); break;
+                    case 4: pp.activatePremiumPlan(); break;
+                    case 5: pp.deactivatePremiumPlan(); break;
+                    case 6: pp.dietChart(); break;
+                    case 7: pp.daily_calorie_intake_tracker(); break;
+                    case 8: pp.daily_calorie_burner_tracker(); break;
+                    case 9: pp.net_calorie_per_day_tracker(); break;
+                    case 10: pp.famousRandQuotes(); break;
+                    case 11: pp.sigma_power_index(); break;
+                    case 12: cout << pp << endl; break;
+                    case 0: break;
+                    default: cout << "Invalid option."<<endl;;
+                }
+            }
+        }
+
+        else if (choice == 0)
+        {
+            cout << "Exiting Alphen Premium System..."<<endl;
+        }
+        else
+        {
+            cout << "Invalid choice."<<endl;
         }
     }
+
     return 0;
 }
