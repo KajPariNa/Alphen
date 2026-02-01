@@ -732,13 +732,13 @@ int main(){
 
     while (choice != 0)
     {
-        cout << "========= ALPHEN PREMIUM SYSTEM ========="<<endl;;
-        cout << "1. Add New Premium User"<<endl;;
-        cout << "2. Delete Premium User"<<endl;;
-        cout << "3. List All Users"<<endl;;
-        cout << "4. Select User & Open Premium Menu"<<endl;;
-        cout << "0. Exit Program"<<endl;;
-        cout << "Enter choice: "<<endl;;
+        cout << "========= ALPHEN PREMIUM SYSTEM ========="<<endl;
+        cout << "1. Add New Premium User"<<endl;
+        cout << "2. Delete Premium User"<<endl;
+        cout << "3. List All Users"<<endl;
+        cout << "4. Select User & Open Premium Menu"<<endl;
+        cout << "0. Exit Program"<<endl;
+        cout << "Enter choice: "<<endl;
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(),'\n');
 
@@ -758,7 +758,7 @@ int main(){
             premiumPlan newUser(name, username, email);
             users.push_back(newUser);
 
-            cout << "Premium user added successfully.\n";
+            cout << "Premium user added successfully."<<endl;
         }
 
         else if (choice == 2)
@@ -772,12 +772,12 @@ int main(){
 
             if (index < 1 || index > users.size())
             {
-                cout << "Invalid selection.\n";
+                cout << "Invalid selection."<<endl;
             }
             else
             {
                 users.erase(users.begin() + index - 1);
-                cout << "User deleted successfully.\n";
+                cout << "User deleted successfully."<<endl;
             }
         }
 
@@ -797,7 +797,7 @@ int main(){
 
             if (userIndex < 1 || userIndex > users.size())
             {
-                cout << "Invalid user index.\n";
+                cout << "Invalid user index."<<endl;;
                 continue;
             }
 
