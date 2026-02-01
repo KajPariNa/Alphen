@@ -15,6 +15,8 @@ class premiumPlan{
         double finalPrice;
         bool isActive;
         bool isPaid;
+        double lastIntake = -1;
+        double lastBurned = -1;
     public:
         premiumPlan(string b,string c,string d):planID(++planCounter),name(b),username(c),usermail(d),weight(0.0),packagePrice(0.0),discountPercent(0.0),isActive(false),isPaid(false),finalPrice(0.0){}
         premiumPlan(const premiumPlan& other);
@@ -162,7 +164,7 @@ premiumPlan& premiumPlan::operator=(const premiumPlan& other){
 }
 
 bool premiumPlan::operator==(const premiumPlan& other) const{
-    if(planID==other.planID && username==other.username && usermail==other.usermail){
+    if(username==other.username && usermail==other.usermail){
         return true;
     }
     return false;
@@ -356,7 +358,7 @@ void premiumPlan::dietChart(){
 }
 
 double premiumPlan::daily_calorie_intake_tracker(){
-    map<string,double>foodCalories={
+     map<string,double> foodCalories = {
         {"rice",130}, {"brownrice",112}, {"roti",120}, {"chapati",120},
         {"paratha",260}, {"naan",270}, {"khichuri",180}, {"pulao",220},
         {"biryani",350}, {"friedrice",250}, {"dal",160},
@@ -375,6 +377,10 @@ double premiumPlan::daily_calorie_intake_tracker(){
         {"orange",62}, {"milk",122}, {"lassi",220},
         {"tea",90}, {"softdrink",140}
     };
+
+    cout << "Available food items (use lowercase, no spaces):"<<endl;
+    for (auto &f : foodCalories)
+        cout << "- " << f.first << " (" << f.second << " kcal/serving)\n";
     int items;
     cout<<"Enter the number of food items consumed today: ";
     cin>>items;
@@ -414,41 +420,31 @@ double premiumPlan::daily_calorie_intake_tracker(){
         }
     }
     cout<<"Total daily calorie intake: "<<totalCalories<<" kcal"<<endl;
+    lastIntake = totalCalories;
     return totalCalories;
 }
 
 double premiumPlan::daily_calorie_burner_tracker() {
-    map<string, double> activityBurnRate = {
-        {"walking", 4.0},
-        {"fast walking", 5.5},
-        {"running", 10.0},
-        {"sprinting", 15.0},
-        {"cycling", 8.0},
-        {"skipping", 12.0},
-        {"pushups", 8.5},
-        {"situps", 7.5},
-        {"gym workout", 9.0},
-        {"weight lifting", 6.0},
-        {"cardio", 10.5},
-        {"yoga", 3.0},
-        {"stretching", 2.5},
-        {"meditation", 1.5},
-        {"football", 9.5},
-        {"cricket", 6.5},
-        {"badminton", 7.5},
-        {"basketball", 9.0},
-        {"swimming", 11.0},
-        {"stair climbing", 8.5},
-        {"household work", 3.5},
-        {"cleaning", 4.0},
-        {"gardening", 4.5}
+        map<string, double> activityBurnRate = {
+        {"walking",4.0}, {"fast walking",5.5}, {"running",10.0},
+        {"sprinting",15.0}, {"cycling",8.0}, {"skipping",12.0},
+        {"pushups",8.5}, {"situps",7.5}, {"gym workout",9.0},
+        {"weight lifting",6.0}, {"cardio",10.5}, {"yoga",3.0},
+        {"stretching",2.5}, {"meditation",1.5}, {"football",9.5},
+        {"cricket",6.5}, {"badminton",7.5}, {"basketball",9.0},
+        {"swimming",11.0}, {"stair climbing",8.5},
+        {"household work",3.5}, {"cleaning",4.0}, {"gardening",4.5}
     };
+
+    cout << "Available activities:"<<endl;
+    for (auto &a : activityBurnRate)
+        cout << "- " << a.first << " (" << a.second << " kcal/min)"<<endl;
 
     int n;
     cout << "Enter number of activities performed today: ";
     cin >> n;
 
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
     double totalBurned = 0.0;
 
     for(int i = 0; i < n; i++) {
@@ -481,16 +477,13 @@ double premiumPlan::daily_calorie_burner_tracker() {
     cout << endl << "Total calories burned today: "
          << totalBurned << " kcal" << endl;
 
+    lastBurned = totalBurned;
     return totalBurned;
 }
 
 void premiumPlan::net_calorie_per_day_tracker() {
-    double intake = daily_calorie_intake_tracker();
-    cout << endl;
-
-    double burned = daily_calorie_burner_tracker();
-    cout << endl;
-
+    double intake = lastIntake;
+    double burned = lastBurned;
     double netCalories = intake - burned;
 
     cout<<"Your daily calorie stats is loading..."<<endl;
@@ -516,7 +509,280 @@ void premiumPlan::net_calorie_per_day_tracker() {
     }
 }
 
-int main(){
+void premiumPlan::famousRandQuotes() {
+    vector<string>quotes={
+        "Arnold Schwarzenegger: Strength does not come from winning. Your struggles develop your strengths.",
+        "Muhammad Ali: I hated every minute of training, but I said, don't quit.",
+        "Bruce Lee: Do not pray for an easy life. Pray for the strength to endure a difficult one.",
+        "Michael Jordan: Some people want it to happen. Some wish it would happen. Others make it happen.",
+        "Dwayne Johnson: Success isn’t always about greatness. It’s about consistency.",
+        "Kobe Bryant: The moment you give up is the moment you let someone else win.",
+        "David Goggins: You are in danger of living a life so comfortable that you never realize your true potential.",
+        "Ronnie Coleman: Everybody wants to be a bodybuilder, but nobody wants to lift heavy weights.",
+        "Usain Bolt: I trained 4 years to run 9 seconds. People give up when they don’t see results in 2 months.",
+        "Cristiano Ronaldo: Talent without working hard is nothing.",
+        "LeBron James: You have to be able to accept failure to get better.",
+        "Conor McGregor: Doubt is only removed by action.",
+        "Sylvester Stallone: Every champion was once a contender who refused to give up.",
+        "Serena Williams: Luck has nothing to do with it. I’ve spent many hours working.",
+        "Mike Tyson: Discipline is doing what you hate to do but doing it like you love it.",
+        "Jocko Willink: Discipline equals freedom.",
+        "Tom Brady: Suffer in silence and let success make the noise.",
+        "Elon Musk: When something is important enough, you do it even if the odds are not in your favor.",
+        "Steve Jobs: I’m convinced that about half of what separates the successful from the non-successful is perseverance.",
+        "Bill Gates: It’s fine to celebrate success, but it is more important to heed the lessons of failure.",
+        "Mark Zuckerberg: The biggest risk is not taking any risk.",
+        "Jeff Bezos: If you never want to be criticized, don’t do anything new.",
+        "Henry Ford: Whether you think you can or you think you can’t, you’re right.",
+        "Napoleon Hill: Strength and growth come only through continuous effort and struggle.",
+        "Thomas Edison: Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+        "Walt Disney: All our dreams can come true if we have the courage to pursue them.",
+        "Abraham Lincoln: Discipline is choosing between what you want now and what you want most.",
+        "Marcus Aurelius: You have power over your mind, not outside events.",
+        "Seneca: Difficulties strengthen the mind, as labor does the body.",
+        "Plato: Lack of activity destroys the good condition of every human being.",
+        "Socrates: No man has the right to be an amateur in physical training.",
+        "Aristotle: We are what we repeatedly do. Excellence is a habit.",
+        "Sun Tzu: Victorious warriors win first and then go to war.",
+        "Confucius: It does not matter how slowly you go as long as you do not stop.",
+        "Leonardo da Vinci: Iron rusts from disuse; stagnant water loses purity.",
+        "Nikola Tesla: The present is theirs; the future, for which I really worked, is mine.",
+        "Albert Einstein: Life is like riding a bicycle. To keep your balance, you must keep moving.",
+        "Stephen Hawking: However difficult life may seem, there is always something you can do.",
+        "Neil Armstrong: Difficulties are things that show a person what they are.",
+        "Malcolm X: Don’t be in a hurry, but don’t waste time.",
+        "Martin Luther King Jr.: If you can’t fly then run, if you can’t run then walk.",
+        "Nelson Mandela: It always seems impossible until it’s done.",
+        "Bruce Buffer: It’s time to push beyond your limits.",
+        "Floyd Mayweather: Hard work, dedication.",
+        "Khabib Nurmagomedov: Discipline will take you places motivation can’t.",
+        "Anderson Silva: I fight to improve myself, not to prove myself.",
+        "Manny Pacquiao: Hard work is the key to success.",
+        "Tiger Woods: No matter how good you get, you can always get better.",
+        "Rafael Nadal: I am not afraid of losing. I’m afraid of not trying.",
+        "Roger Federer: You have to believe in the long-term plan.",
+        "Adidas: Impossible is nothing.",
+        "Lionel Messi: You have to fight to reach your dream.",
+        "Zlatan Ibrahimović: Pressure is something you feel when you don’t know what you’re doing.",
+        "Pep Guardiola: Success is not about perfection, it’s about effort.",
+        "Alex Ferguson: Hard work without talent is a shame, but talent without hard work is a tragedy.",
+        "Jordan Peterson: Compare yourself to who you were yesterday, not to who someone else is today.",
+        "Andrew Huberman: Consistency rewires the nervous system.",
+        "Joe Rogan: Discipline beats motivation every day.",
+        "Goggins (Navy SEAL): Suffering is the true test of life.",
+        "Bear Grylls: Fear is the mind-killer. Push forward.",
+        "Chris Bumstead: Results come from years, not weeks.",
+        "Jay Cutler: You don’t drown by falling in water. You drown by staying there.",
+        "Rich Piana: Eat big, train hard, stay dedicated.",
+        "Frank Zane: The mind is the strongest muscle.",
+        "Lou Ferrigno: Never give up. You only get one life.",
+        "Eddie Hall: Strength is built through pain.",
+        "Hafthor Bjornsson: Small progress is still progress.",
+        "Brian Shaw: One rep at a time.",
+        "Nick Walker: Stay hungry.",
+        "Chris Heria: Control your body, control your life.",
+        "Cal Newport: Discipline is freedom disguised as routine.",
+        "Julius Caesar: If you must break the law, do it to seize power—otherwise obey it.",
+        "Epictetus: First say to yourself what you would be, then do what you have to do."
+    };
+    cout <<"Loading your daily dose of motivation..."<< endl;
+    Sleep(1200);
+    int index = rand() % quotes.size();
+    cout<<quotes[index]<<endl;
+}
+
+void premiumPlan::sigma_power_index(){
+    double intake = lastIntake;
+    double burned = lastBurned;
+    double netCalories = intake - burned;
+
+    int trainingScore = 0;
+    int nutritionScore = 0;
+    int consistencyScore = 0;
+    int awarenessScore = 0;
+
+    if (burned >= 800)
+    {
+        trainingScore = 35;
+    }
+    else if (burned >= 600)
+    {
+        trainingScore = 30;
+    }
+    else if (burned >= 400)
+    {
+        trainingScore = 24;
+    }
+    else if (burned >= 200)
+    {
+        trainingScore = 15;
+    }
+    else
+    {
+        trainingScore = 6;
+    }
+
+    if (abs(netCalories) <= 150)
+    {
+        nutritionScore = 30;
+    }
+    else if (abs(netCalories) <= 300)
+    {
+        nutritionScore = 24;
+    }
+    else if (abs(netCalories) <= 500)
+    {
+        nutritionScore = 18;
+    }
+    else if (abs(netCalories) <= 800)
+    {
+        nutritionScore = 10;
+    }
+    else
+    {
+        nutritionScore = 4;
+    }
+
+    if (burned > 0 && intake > 0)
+    {
+        consistencyScore = 20;
+    }
+    else if (burned > 0)
+    {
+        consistencyScore = 12;
+    }
+    else
+    {
+        consistencyScore = 5;
+    }
+
+    if (weight > 0)
+    {
+        awarenessScore = 15;
+    }
+    else
+    {
+        awarenessScore = 6;
+    }
+
+    int sigmaIndex = trainingScore +
+                     nutritionScore +
+                     consistencyScore +
+                     awarenessScore;
+
+    cout << "Performance Breakdown Loading..." << endl;
+    Sleep(5000);
+    cout << "Training Output      : " << trainingScore << "/35" << endl;
+    cout << "Nutrition Discipline : " << nutritionScore << "/30" << endl;
+    cout << "Consistency Indicator: " << consistencyScore << "/20" << endl;
+    cout << "Body Awareness       : " << awarenessScore << "/15" << endl;
+
+    cout << endl << "SIGMA POWER INDEX : " << sigmaIndex << " / 100" << endl << endl;
+
+    if (sigmaIndex >= 85)
+    {
+        cout << "CATEGORY : ELITE SIGMA" << endl;
+        cout << "PROFILE  : Fully system-driven. High discipline." << endl;
+    }
+    else if (sigmaIndex >= 70)
+    {
+        cout << "CATEGORY : DISCIPLINED BUILDER" << endl;
+        cout << "PROFILE  : Strong habits. Minor refinement needed." << endl;
+    }
+    else if (sigmaIndex >= 50)
+    {
+        cout << "CATEGORY : STRUCTURE FORMING" << endl;
+        cout << "PROFILE  : Effort exists, discipline unstable." << endl;
+    }
+    else if (sigmaIndex >= 30)
+    {
+        cout << "CATEGORY : INCONSISTENT" << endl;
+        cout << "PROFILE  : Random effort. Needs routine." << endl;
+    }
+    else
+    {
+        cout << "CATEGORY : COMFORT ZONE" << endl;
+        cout << "PROFILE  : No system. No pressure. No progress." << endl;
+    }
+}
+
+int main()
+{
     srand(time(0));
+
+    int n;
+    cout << "Enter number of premium users: ";
+    cin >> n;
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    vector<premiumPlan> users;
+
+    for (int i = 0; i < n; i++)
+    {
+        string name, username, email;
+
+        cout << "\nEnter details for user " << i + 1 << endl;
+        cout << "Name: ";
+        getline(cin,name);
+
+        cout << "Username: ";
+        getline(cin,username);
+
+        cout << "Email: ";
+        getline(cin,email);
+
+        users.push_back(premiumPlan(name, username, email));
+    }
+
+    int userIndex;
+    int choice = -1;
+
+    while (choice != 0)
+    {
+        cout << "\nSelect user index (1 - " << n << "): ";
+        cin >> userIndex;
+
+        if (userIndex < 1 || userIndex > n)
+        {
+            cout << "Invalid user index."<<endl;
+            continue;
+        }
+
+        premiumPlan &pp = users[userIndex - 1];
+
+        cout << "========== ALPHEN PREMIUM MENU =========="<<endl;
+        cout << "1. Display Plan Details"<<endl;
+        cout << "2. Apply Promo Code Deal"<<endl;
+        cout << "3. Complete Payment Process"<<endl;
+        cout << "4. Activate Premium Plan"<<endl;
+        cout << "5. Deactivate Premium Plan"<<endl;
+        cout << "6. Show Diet Chart"<<endl;
+        cout << "7. Daily Calorie Intake Tracker"<<endl;
+        cout << "8. Daily Calorie Burn Tracker"<<endl;
+        cout << "9. Net Calorie Per Day Tracker"<<endl;
+        cout << "10. Show Random Motivational Quote"<<endl;
+        cout << "11. Calculate Sigma Power Index"<<endl;
+        cout << "12. Print Full Plan Using Operator<<"<<endl;
+        cout << "0. Exit Program\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1: pp.displayPlanDetails(); break;
+            case 2: pp.applyPromoCodeDeal(); break;
+            case 3: pp.hasDonePaymentProcess(); break;
+            case 4: pp.activatePremiumPlan(); break;
+            case 5: pp.deactivatePremiumPlan(); break;
+            case 6: pp.dietChart(); break;
+            case 7: pp.daily_calorie_intake_tracker(); break;
+            case 8: pp.daily_calorie_burner_tracker(); break;
+            case 9: pp.net_calorie_per_day_tracker(); break;
+            case 10: pp.famousRandQuotes(); break;
+            case 11: pp.sigma_power_index(); break;
+            case 12: cout << pp << endl; break;
+            case 0: cout << "Exiting Alphen Premium System..."; break;
+            default: cout << "Invalid choice.";
+        }
+    }
     return 0;
 }
