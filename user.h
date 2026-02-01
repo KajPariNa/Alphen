@@ -12,4 +12,5 @@ using namespace std;
             user(string a,string b);
             string getName();
             string getPass();
+            bool check(string u,string p);
     };

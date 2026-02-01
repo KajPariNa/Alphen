@@ -9,3 +9,7 @@ string user::getPass()
 {
     return password;
 }
+bool user::check(string u,string p)
+{
+    return (u==name && p==password);
+}
