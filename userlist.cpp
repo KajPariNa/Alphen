@@ -45,3 +45,13 @@ void userlist::loadFromFile(const string &filename)
     }
     in.close();
 }
+
+void userlist::changePremium(bool a)
+{
+    users.end()->logstatus=a;
+}
+
+bool userlist::isPremium()
+{
+    return users.end()->hasPremium;
+}

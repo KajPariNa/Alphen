@@ -17,7 +17,29 @@ int main()
 
         userlist c;
         c.addUser(user(a,b));
-        c.saveToFile("userlist.txt");
+
+        cout<<"New user created, wanna be a premium user??"<<endl<<"Then press 1 or choose 0 to exit"<<endl;
+        
+        int choice2;
+        cin>>choice2;
+        if(choice2==1)
+        {
+            //Here will be some processing of payments
+
+
+
+
+            //
+
+            cout<<"Congo!! You are a premium user now"<<endl;
+            c.changePremium(true);
+            c.saveToFile("userlist.txt");
+        }
+        else
+        {
+            c.saveToFile("userlist.txt");
+        }
+
     }
     else
     {
@@ -29,6 +51,14 @@ int main()
         if(b.login(c,d))
         {
             cout<<"You are logged in Ozo sama"<<endl;
+            if(b.isPremium())
+            {
+                cout<<"You have premium access"<<endl;
+            }
+            else
+            {
+                cout<<"You don't have premium access"<<endl;
+            }
         }
         else
         {

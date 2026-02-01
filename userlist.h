@@ -18,4 +18,7 @@ public:
     void saveToFile(const string &filename);
     // ifstream is used to load the file in the same way
     void loadFromFile(const string &filename);
+
+    void changePremium(bool a);
+    bool isPremium();
 };
