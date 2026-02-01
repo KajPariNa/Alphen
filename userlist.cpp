@@ -11,6 +11,7 @@ bool userlist::login(string uname, string pass)
     {
         if(users[i].check(uname,pass))
         {
+            users[i].logstatus=true;
             return true;
         }
     }
@@ -24,7 +25,7 @@ void userlist::saveToFile(const string &filename)
     ofstream out(filename,ios::app);
     for(int i=0;i<users.size();i++)
     {
-        out << users[i].getName() << " "<< users[i].getPass() << endl;
+        out << users[i].getName() << " "<< users[i].getPass() << users[i].hasPremium<<endl;
     }
     out.close();
 }
@@ -34,11 +35,13 @@ void userlist::loadFromFile(const string &filename)
 {
     ifstream in(filename);
     string u, p;
+    bool q;
 
     users.clear();
-    while (in >> u >> p)
+    while (in>>u>>p>>q)
     {
         users.emplace_back(u, p);
+        users.end()->hasPremium=q;
     }
     in.close();
 }

@@ -8,7 +8,8 @@ using namespace std;
             string password;
             //date DOB;
         public:
-            bool logstatus;
+            bool logstatus=false;
+            bool hasPremium=false;
             user(string a,string b);
             string getName();
             string getPass();
