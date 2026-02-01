@@ -25,7 +25,7 @@ void userlist::saveToFile(const string &filename)
     ofstream out(filename,ios::app);
     for(int i=0;i<users.size();i++)
     {
-        out << users[i].getName() << " "<< users[i].getPass() << users[i].hasPremium<<endl;
+        out << users[i].getName() << " "<< users[i].getPass() <<" "<< users[i].hasPremium<<endl;
     }
     out.close();
 }
@@ -41,17 +41,17 @@ void userlist::loadFromFile(const string &filename)
     while (in>>u>>p>>q)
     {
         users.emplace_back(u, p);
-        users.end()->hasPremium=q;
+        users.back().hasPremium=q;
     }
     in.close();
 }
 
 void userlist::changePremium(bool a)
 {
-    users.end()->logstatus=a;
+    users.back().hasPremium=a;
 }
 
 bool userlist::isPremium()
 {
-    return users.end()->hasPremium;
+    return users.back().hasPremium;
 }
