@@ -11,21 +11,18 @@ class HybridWorkout : public StrengthWorkout, public CardioWorkout {
 private:
     string hybridMode;
 
-    void print(ostream& os) const override;   // for operator<<
-    void read(istream& is);                   // for operator>>
-
 public:
-    HybridWorkout(); // default
-
+    HybridWorkout();
     HybridWorkout(string name, int caloriesBurned, string equipment, string difficulty, string notes,
                   int weight, int sets, int reps, int rest, string muscleGroup,
                   int duration, int targetHR, double distance, double calPerMin, string focus, string environment,
                   string hybridMode);
 
-    void performWorkout() const override;
+    void setHybridMode(string m);
+    string getHybridMode() const;
 
-    friend ostream& operator<<(ostream& os, const HybridWorkout& h);
-    friend istream& operator>>(istream& is, HybridWorkout& h);
+    void perform() const;
+    void displayHybrid() const;
 };
 
 #endif

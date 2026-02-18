@@ -7,8 +7,6 @@ using namespace std;
 #include "StrengthSplit.h"
 #include "StrengthWorkout.h"
 
-class WorkoutPlan; // friend class
-
 class StrengthCatalog {
 private:
     StrengthSplit split;
@@ -24,20 +22,16 @@ public:
 
     void loadDefaults();
 
-    // overloading
     void addMachine(string m);
     void addMachine(vector<string> ms);
 
-    // overloading
-    void addWorkout(const StrengthWorkout& w);
+    void addWorkout(StrengthWorkout w);
     void addWorkout(vector<StrengthWorkout> ws);
 
     vector<StrengthWorkout> getWorkouts() const;
 
-    friend class WorkoutPlan;
-
-    friend ostream& operator<<(ostream& os, const StrengthCatalog& c);
-    friend istream& operator>>(istream& is, StrengthCatalog& c);
+    void showMachines() const;
+    void showWorkouts() const;
 };
 
 #endif

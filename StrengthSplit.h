@@ -6,20 +6,17 @@ using namespace std;
 
 class StrengthSplit {
 private:
-    string split; // Push / Pull / Legs
+    string split;
 
 public:
     StrengthSplit(string split = "Push");
 
-    string getSplit() const;
     void setSplit(string s);
+    string getSplit() const;
 
     bool isPush() const;
     bool isPull() const;
     bool isLegs() const;
-
-    friend ostream& operator<<(ostream& os, const StrengthSplit& s);
-    friend istream& operator>>(istream& is, StrengthSplit& s);
 };
 
 #endif

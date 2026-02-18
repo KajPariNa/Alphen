@@ -9,44 +9,35 @@ CardioWorkout::CardioWorkout(string name, int caloriesBurned, string equipment, 
     : Workout(name, caloriesBurned, equipment, difficulty, notes, "Cardio"),
       duration(duration), targetHR(targetHR), distance(distance), calPerMin(calPerMin), focus(focus), environment(environment) {}
 
-void CardioWorkout::performWorkout() const {
-    cout << "[Cardio] " << name << " | " << duration << "min | HR=" << targetHR
-         << " | dist=" << distance << "km | focus=" << focus
-         << " | env=" << environment << " | estCal=" << (calPerMin * duration) << "\n";
-}
-
-void CardioWorkout::print(ostream& os) const {
-    Workout::print(os);
-    os << "Duration: " << duration << " min\n";
-    os << "Target HR: " << targetHR << "\n";
-    os << "Distance: " << distance << " km\n";
-    os << "Cal/Min: " << calPerMin << "\n";
-    os << "Focus: " << focus << "\n";
-    os << "Environment: " << environment << "\n";
-}
-
-ostream& operator<<(ostream& os, const CardioWorkout& c) {
-    c.print(os);
-    return os;
-}
-
-istream& operator>>(istream& is, CardioWorkout& c) {
-    // name calories equipment difficulty notes duration targetHR distance calPerMin focus environment
-    is >> ws;
-    getline(is, c.name);
-
-    is >> c.caloriesBurned;
-    is >> ws; getline(is, c.equipment);
-    is >> ws; getline(is, c.difficulty);
-    is >> ws; getline(is, c.notes);
-
-    is >> c.duration >> c.targetHR >> c.distance >> c.calPerMin;
-    is >> ws; getline(is, c.focus);
-    is >> ws; getline(is, c.environment);
-
-    c.type = "Cardio";
-    return is;
-}
+void CardioWorkout::setDuration(int d) { duration = d; }
+void CardioWorkout::setTargetHR(int hr) { targetHR = hr; }
+void CardioWorkout::setDistance(double dist) { distance = dist; }
+void CardioWorkout::setCalPerMin(double cpm) { calPerMin = cpm; }
+void CardioWorkout::setFocus(string f) { focus = f; }
+void CardioWorkout::setEnvironment(string e) { environment = e; }
 
 int CardioWorkout::getDuration() const { return duration; }
+int CardioWorkout::getTargetHR() const { return targetHR; }
+double CardioWorkout::getDistance() const { return distance; }
+double CardioWorkout::getCalPerMin() const { return calPerMin; }
 string CardioWorkout::getFocus() const { return focus; }
+string CardioWorkout::getEnvironment() const { return environment; }
+
+void CardioWorkout::perform() const {
+    cout << "[Cardio] " << name << " | " << duration << "min"
+         << " | HR=" << targetHR
+         << " | dist=" << distance << "km"
+         << " | focus=" << focus
+         << " | env=" << environment
+         << " | estCal=" << (calPerMin * duration) << "\n";
+}
+
+void CardioWorkout::displayCardio() const {
+    display();
+    cout << "Duration: " << duration << " min\n";
+    cout << "Target HR: " << targetHR << "\n";
+    cout << "Distance: " << distance << " km\n";
+    cout << "Cal/Min: " << calPerMin << "\n";
+    cout << "Focus: " << focus << "\n";
+    cout << "Environment: " << environment << "\n";
+}

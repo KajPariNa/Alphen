@@ -13,20 +13,25 @@ protected:
     string notes;
     string type;
 
-    // polymorphic printing (used by operator<<)
-    virtual void print(ostream& os) const;
-
 public:
+    Workout();
     Workout(string name, int caloriesBurned, string equipment, string difficulty, string notes, string type);
-    virtual ~Workout();
 
-    virtual void performWorkout() const = 0;
-
-    // stream output for base reference/polymorphism
-    friend ostream& operator<<(ostream& os, const Workout& w);
+    void setName(string n);
+    void setCaloriesBurned(int c);
+    void setEquipment(string e);
+    void setDifficulty(string d);
+    void setNotes(string n);
+    void setType(string t);
 
     string getName() const;
+    int getCaloriesBurned() const;
+    string getEquipment() const;
+    string getDifficulty() const;
+    string getNotes() const;
     string getType() const;
+
+    void display() const; // normal function (no operator overloading)
 };
 
 #endif

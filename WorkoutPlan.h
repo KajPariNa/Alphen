@@ -4,25 +4,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "Workout.h"
-#include "StrengthCatalog.h"
+#include "StrengthWorkout.h"
+#include "CardioWorkout.h"
+#include "HybridWorkout.h"
 
 class WorkoutPlan {
 private:
     string planName;
-    vector<Workout*> plan;
+    vector<StrengthWorkout> strengthList;
+    vector<CardioWorkout> cardioList;
+    vector<HybridWorkout> hybridList;
 
 public:
     WorkoutPlan(string planName = "Plan");
 
-    void addWorkout(Workout* w);
+    // overloading
+    void addWorkout(StrengthWorkout w);
+    void addWorkout(CardioWorkout w);
+    void addWorkout(HybridWorkout w);
+
     void showPlan() const;
     void runPlan() const;
-
-    // friend class demo: access StrengthCatalog private vector
-    void stealOneStrengthWorkout(StrengthCatalog& c);
-
-    friend ostream& operator<<(ostream& os, const WorkoutPlan& p);
 };
 
 #endif
