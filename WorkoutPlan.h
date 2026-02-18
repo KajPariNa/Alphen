@@ -1,24 +1,28 @@
-// ========================= WorkoutPlan.h =========================
 #ifndef WORKOUTPLAN_H
 #define WORKOUTPLAN_H
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "workout.h"
+#include "Workout.h"
+#include "StrengthCatalog.h"
 
 class WorkoutPlan {
 private:
     string planName;
-    string intensity;
-    vector<Workout*> workouts;
+    vector<Workout*> plan;
 
 public:
-    WorkoutPlan(string planName, string intensity);
+    WorkoutPlan(string planName = "Plan");
 
-    void addWorkout(Workout* workout);
-    void displayAllWorkouts() const;
-    void performAllWorkouts() const;
+    void addWorkout(Workout* w);
+    void showPlan() const;
+    void runPlan() const;
+
+    // friend class demo: access StrengthCatalog private vector
+    void stealOneStrengthWorkout(StrengthCatalog& c);
+
+    friend ostream& operator<<(ostream& os, const WorkoutPlan& p);
 };
 
 #endif

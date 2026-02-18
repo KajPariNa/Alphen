@@ -1,35 +1,51 @@
-// ========================= StrengthWorkout.cpp =========================
 #include "StrengthWorkout.h"
 
+StrengthWorkout::StrengthWorkout()
+    : Workout("Unnamed", 0, "None", "Easy", "-", "Strength"),
+      weight(0), sets(0), reps(0), rest(0), muscleGroup("Unknown") {}
+
 StrengthWorkout::StrengthWorkout(string name, int caloriesBurned, string equipment, string difficulty, string notes,
-                                 int weight, int sets, int reps, int restPeriod, string muscleGroup)
+                                 int weight, int sets, int reps, int rest, string muscleGroup)
     : Workout(name, caloriesBurned, equipment, difficulty, notes, "Strength"),
-      weight(weight),
-      sets(sets),
-      reps(reps),
-      restPeriod(restPeriod),
-      muscleGroup(muscleGroup) {}
+      weight(weight), sets(sets), reps(reps), rest(rest), muscleGroup(muscleGroup) {}
 
 void StrengthWorkout::performWorkout() const {
-    cout << "Performing Strength: " << name << "\n";
-    cout << "Weight: " << weight << " kg\n";
-    cout << "Sets: " << sets << "\n";
-    cout << "Reps: " << reps << "\n";
-    cout << "Rest: " << restPeriod << " sec\n";
-    cout << "Muscle Group: " << muscleGroup << "\n";
+    cout << "[Strength] " << name << " | " << sets << "x" << reps
+         << " | weight=" << weight << "kg | rest=" << rest
+         << "s | muscle=" << muscleGroup << "\n";
 }
 
-void StrengthWorkout::displayStrengthDetails() const {
-    displayDetails();
-    cout << "Weight: " << weight << " kg\n";
-    cout << "Sets: " << sets << "\n";
-    cout << "Reps: " << reps << "\n";
-    cout << "Rest Period: " << restPeriod << " sec\n";
-    cout << "Muscle Group: " << muscleGroup << "\n";
+void StrengthWorkout::print(ostream& os) const {
+    Workout::print(os);
+    os << "Weight: " << weight << " kg\n";
+    os << "Sets: " << sets << "\n";
+    os << "Reps: " << reps << "\n";
+    os << "Rest: " << rest << " sec\n";
+    os << "Muscle Group: " << muscleGroup << "\n";
 }
 
-int StrengthWorkout::getWeight() const { return weight; }
+ostream& operator<<(ostream& os, const StrengthWorkout& s) {
+    s.print(os);
+    return os;
+}
+
+istream& operator>>(istream& is, StrengthWorkout& s) {
+    // simple input order:
+    // name calories equipment difficulty notes weight sets reps rest muscleGroup
+    is >> ws;
+    getline(is, s.name);
+
+    is >> s.caloriesBurned;
+    is >> ws; getline(is, s.equipment);
+    is >> ws; getline(is, s.difficulty);
+    is >> ws; getline(is, s.notes);
+
+    is >> s.weight >> s.sets >> s.reps >> s.rest;
+    is >> ws; getline(is, s.muscleGroup);
+
+    s.type = "Strength";
+    return is;
+}
+
 int StrengthWorkout::getSets() const { return sets; }
-int StrengthWorkout::getReps() const { return reps; }
-int StrengthWorkout::getRestPeriod() const { return restPeriod; }
 string StrengthWorkout::getMuscleGroup() const { return muscleGroup; }

@@ -1,31 +1,33 @@
-// ========================= StrengthWorkout.h =========================
 #ifndef STRENGTHWORKOUT_H
 #define STRENGTHWORKOUT_H
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "workout.h"
+#include "Workout.h"
 
-class StrengthWorkout : public Workout {
-private:
+class StrengthWorkout : virtual public Workout {
+protected:
     int weight;
-    int sets;        // strength has sets (NO duration)
+    int sets;
     int reps;
-    int restPeriod;
+    int rest;
     string muscleGroup;
+
+    void print(ostream& os) const override;
 
 public:
     StrengthWorkout(string name, int caloriesBurned, string equipment, string difficulty, string notes,
-                    int weight, int sets, int reps, int restPeriod, string muscleGroup);
+                    int weight, int sets, int reps, int rest, string muscleGroup);
+
+    StrengthWorkout(); // default for operator>>
 
     void performWorkout() const override;
-    void displayStrengthDetails() const;
 
-    int getWeight() const;
+    friend ostream& operator<<(ostream& os, const StrengthWorkout& s);
+    friend istream& operator>>(istream& is, StrengthWorkout& s);
+
     int getSets() const;
-    int getReps() const;
-    int getRestPeriod() const;
     string getMuscleGroup() const;
 };
 
