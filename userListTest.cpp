@@ -67,5 +67,3 @@ int main()
         }
     }
 }
-
-//Dio sama will rule the world
