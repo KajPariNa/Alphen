@@ -1,60 +1,7 @@
+#include "premiumPlan.h"
 #include<bits/stdc++.h>
 #include<windows.h>
 using namespace std;
-
-class premiumPlan{
-    private:
-        static int planCounter;
-        int planID;
-        string name;
-        string username;
-        string usermail;
-        double weight;
-        double packagePrice;
-        double discountPercent;
-        double finalPrice;
-        bool isActive;
-        bool isPaid;
-        double lastIntake = -1;
-        double lastBurned = -1;
-    public:
-        premiumPlan(string b,string c,string d):planID(++planCounter),name(b),username(c),usermail(d),weight(0.0),packagePrice(0.0),discountPercent(0.0),isActive(false),isPaid(false),finalPrice(0.0){}
-        premiumPlan(const premiumPlan& other);
-        static int getPlanCounter();
-        int getPlanID() const;
-        string getName() const;
-        string getUsername() const;
-        string getUsermail() const;
-        double getWeight() const;
-        double getPackagePrice() const;
-        double getDiscountPercent() const;
-        double getFinalPrice() const;
-        bool getIsActive() const;
-        bool getIsPaid() const;
-        void setName(string f);
-        void setUsername(string g);
-        void setUsermail(string h);
-        void setWeight(double i);
-        void setPackagePrice(double j);
-        void setDiscountPercent(double k);
-        void setIsActive(bool l);
-        void setIsPaid(bool m);
-        premiumPlan& operator=(const premiumPlan& other);
-        bool operator==(const premiumPlan& other) const;
-        friend ostream& operator<<(ostream& os,const premiumPlan& plan);
-        bool activatePremiumPlan();
-        bool deactivatePremiumPlan();
-        double applyPromoCodeDeal();
-        double finalPricing();
-        bool hasDonePaymentProcess();
-        void displayPlanDetails();
-        void dietChart();
-        double daily_calorie_intake_tracker();
-        double daily_calorie_burner_tracker();
-        void net_calorie_per_day_tracker();
-        void famousRandQuotes();
-        void sigma_power_index();
-};
 
 int premiumPlan::planCounter=0;
 
@@ -69,6 +16,8 @@ premiumPlan::premiumPlan(const premiumPlan& other){
     isActive=other.isActive;
     isPaid=other.isPaid;
     finalPrice=other.finalPrice;
+    lastIntake=other.lastIntake;
+    lastBurned=other.lastBurned;
 }
 
 int premiumPlan::getPlanCounter(){
@@ -159,6 +108,8 @@ premiumPlan& premiumPlan::operator=(const premiumPlan& other){
         isActive=other.isActive;
         isPaid=other.isPaid;
         finalPrice=other.finalPrice;
+        lastIntake=other.lastIntake; 
+        lastBurned=other.lastBurned;
     }
     return *this;
 }
@@ -380,7 +331,7 @@ double premiumPlan::daily_calorie_intake_tracker(){
 
     cout << "Available food items (use lowercase, no spaces):"<<endl;
     for (auto &f : foodCalories)
-        cout << "- " << f.first << " (" << f.second << " kcal/serving)\n";
+        cout << "- " << f.first << " (" << f.second << " kcal/serving)"<<endl;
     int items;
     cout<<"Enter the number of food items consumed today: ";
     cin>>items;
@@ -622,19 +573,19 @@ void premiumPlan::sigma_power_index(){
         trainingScore = 6;
     }
 
-    if (abs(netCalories) <= 150)
+    if (fabs(netCalories) <= 150)
     {
         nutritionScore = 30;
     }
-    else if (abs(netCalories) <= 300)
+    else if (fabs(netCalories) <= 300)
     {
         nutritionScore = 24;
     }
-    else if (abs(netCalories) <= 500)
+    else if (fabs(netCalories) <= 500)
     {
         nutritionScore = 18;
     }
-    else if (abs(netCalories) <= 800)
+    else if (fabs(netCalories) <= 800)
     {
         nutritionScore = 10;
     }
@@ -710,148 +661,15 @@ void listUsers(const vector<premiumPlan>& users)
 {
     if (users.empty())
     {
-        cout << "No premium users available.\n";
+        cout << "No premium users available."<<endl;
         return;
     }
 
-    cout << "\n--- Registered Premium Users ---\n";
+    cout << "Registered Premium Users : "<<endl;
     for (size_t i = 0; i < users.size(); i++)
     {
         cout << i + 1 << ". "
              << users[i].getName()
-             << " (" << users[i].getUsername() << ")\n";
+             << " (" << users[i].getUsername() << ")"<<endl;
     }
-}
-
-
-int main(){
-    srand(time(0));
-
-    vector<premiumPlan> users;
-    int choice = -1;
-
-    while (choice != 0)
-    {
-        cout << "========= ALPHEN PREMIUM SYSTEM ========="<<endl;
-        cout << "1. Add New Premium User"<<endl;
-        cout << "2. Delete Premium User"<<endl;
-        cout << "3. List All Users"<<endl;
-        cout << "4. Select User & Open Premium Menu"<<endl;
-        cout << "0. Exit Program"<<endl;
-        cout << "Enter choice: "<<endl;
-        cin >> choice;
-        cin.ignore(numeric_limits<streamsize>::max(),'\n');
-
-        if (choice == 1)
-        {
-            string name, username, email;
-
-            cout << "Name: ";
-            getline(cin, name);
-
-            cout << "Username: ";
-            getline(cin, username);
-
-            cout << "Email: ";
-            getline(cin, email);
-
-            premiumPlan newUser(name, username, email);
-            users.push_back(newUser);
-
-            cout << "Premium user added successfully."<<endl;
-        }
-
-        else if (choice == 2)
-        {
-            listUsers(users);
-            if (users.empty()) continue;
-
-            int index;
-            cout << "Enter user number to delete: ";
-            cin >> index;
-
-            if (index < 1 || index > users.size())
-            {
-                cout << "Invalid selection."<<endl;
-            }
-            else
-            {
-                users.erase(users.begin() + index - 1);
-                cout << "User deleted successfully."<<endl;
-            }
-        }
-
-        else if (choice == 3)
-        {
-            listUsers(users);
-        }
-
-        else if (choice == 4)
-        {
-            listUsers(users);
-            if (users.empty()) continue;
-
-            int userIndex;
-            cout << "Select user number: ";
-            cin >> userIndex;
-
-            if (userIndex < 1 || userIndex > users.size())
-            {
-                cout << "Invalid user index."<<endl;;
-                continue;
-            }
-
-            premiumPlan &pp = users[userIndex - 1];
-            int subChoice = -1;
-
-            while (subChoice != 0)
-            {
-                cout << "====== PREMIUM USER MENU ======"<<endl;
-                cout << "1. Display Plan Details"<<endl;
-                cout << "2. Apply Promo Code Deal"<<endl;
-                cout << "3. Complete Payment Process"<<endl;
-                cout << "4. Activate Premium Plan"<<endl;
-                cout << "5. Deactivate Premium Plan"<<endl;
-                cout << "6. Show Diet Chart"<<endl;
-                cout << "7. Daily Calorie Intake Tracker"<<endl;
-                cout << "8. Daily Calorie Burn Tracker"<<endl;
-                cout << "9. Net Calorie Per Day Tracker"<<endl;
-                cout << "10. Show Random Motivational Quote"<<endl;
-                cout << "11. Calculate Sigma Power Index"<<endl;
-                cout << "12. Print Full Plan (operator<<)"<<endl;
-                cout << "0. Back to Main Menu"<<endl;
-                cout << "Enter choice: "<<endl;
-                cin >> subChoice;
-
-                switch (subChoice)
-                {
-                    case 1: pp.displayPlanDetails(); break;
-                    case 2: pp.applyPromoCodeDeal(); break;
-                    case 3: pp.hasDonePaymentProcess(); break;
-                    case 4: pp.activatePremiumPlan(); break;
-                    case 5: pp.deactivatePremiumPlan(); break;
-                    case 6: pp.dietChart(); break;
-                    case 7: pp.daily_calorie_intake_tracker(); break;
-                    case 8: pp.daily_calorie_burner_tracker(); break;
-                    case 9: pp.net_calorie_per_day_tracker(); break;
-                    case 10: pp.famousRandQuotes(); break;
-                    case 11: pp.sigma_power_index(); break;
-                    case 12: cout << pp << endl; break;
-                    case 0: break;
-                    default: cout << "Invalid option."<<endl;;
-                }
-            }
-        }
-
-        else if (choice == 0)
-        {
-            cout << "Exiting Alphen Premium System..."<<endl;
-        }
-        else
-        {
-            cout << "Invalid choice."<<endl;
-        }
-    }
-
-    return 0;
 }
