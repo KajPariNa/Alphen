@@ -5,6 +5,13 @@ using namespace std;
 
 int main()
 {
+    cout << "   AAAA   LL      PPPPPP  HH   HH EEEEEEE NN   NN\n";
+    cout << "  AA  AA  LL      PP   PP HH   HH EE      NNN  NN\n";
+    cout << " AA    AA LL      PP   PP HH   HH EE      NN N NN\n";
+    cout << " AAAAAAAA LL      PPPPPP  HHHHHHH EEEEE   NN  NNN\n";
+    cout << " AA    AA LL      PP      HH   HH EE      NN   NN\n";
+    cout << " AA    AA LLLLLLL PP      HH   HH EEEEEEE NN   NN\n";
+
     cout<<"Ojo sama, press 1 for sign up"<<endl<<"press 2 for sign in"<<endl;
     int choice;
     cin>>choice;
