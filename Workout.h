@@ -6,32 +6,27 @@ using namespace std;
 
 class Workout {
 protected:
-    string name;
-    int caloriesBurned;
-    string equipment;
+    string workoutName;
+    string category;
     string difficulty;
-    string notes;
-    string type;
+    int duration;
+    int caloriesBurned;
 
 public:
     Workout();
-    Workout(string name, int caloriesBurned, string equipment, string difficulty, string notes, string type);
+    Workout(string workoutName, string category, string difficulty, int duration, int caloriesBurned);
 
-    void setName(string n);
-    void setCaloriesBurned(int c);
-    void setEquipment(string e);
-    void setDifficulty(string d);
-    void setNotes(string n);
-    void setType(string t);
+    void setWorkoutName(string workoutName);
+    void setCategory(string category);
+    void setDifficulty(string difficulty);
+    void setDuration(int duration);
+    void setCaloriesBurned(int caloriesBurned);
 
-    string getName() const;
-    int getCaloriesBurned() const;
-    string getEquipment() const;
+    string getWorkoutName() const;
+    string getCategory() const;
     string getDifficulty() const;
-    string getNotes() const;
-    string getType() const;
-
-    void display() const; // normal function (no operator overloading)
+    int getDuration() const;
+    int getCaloriesBurned() const;
 };
 
 #endif

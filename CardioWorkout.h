@@ -2,40 +2,24 @@
 #define CARDIOWORKOUT_H
 
 #include <bits/stdc++.h>
+#include "Workout.h"
 using namespace std;
 
-#include "Workout.h"
-
 class CardioWorkout : virtual public Workout {
-private:
-    int duration;        // only cardio has duration
-    int targetHR;
+protected:
     double distance;
-    double calPerMin;
-    string focus;
-    string environment;
+    double speed;
 
 public:
     CardioWorkout();
-    CardioWorkout(string name, int caloriesBurned, string equipment, string difficulty, string notes,
-                  int duration, int targetHR, double distance, double calPerMin, string focus, string environment);
+    CardioWorkout(string workoutName, string category, string difficulty, int duration, int caloriesBurned,
+                  double distance, double speed);
 
-    void setDuration(int d);
-    void setTargetHR(int hr);
-    void setDistance(double dist);
-    void setCalPerMin(double cpm);
-    void setFocus(string f);
-    void setEnvironment(string e);
+    void setDistance(double distance);
+    void setSpeed(double speed);
 
-    int getDuration() const;
-    int getTargetHR() const;
     double getDistance() const;
-    double getCalPerMin() const;
-    string getFocus() const;
-    string getEnvironment() const;
-
-    void perform() const;
-    void displayCardio() const;
+    double getSpeed() const;
 };
 
 #endif

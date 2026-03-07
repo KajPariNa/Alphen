@@ -2,37 +2,29 @@
 #define STRENGTHWORKOUT_H
 
 #include <bits/stdc++.h>
+#include "Workout.h"
 using namespace std;
 
-#include "Workout.h"
-
 class StrengthWorkout : virtual public Workout {
-private:
-    int weight;
+protected:
     int sets;
     int reps;
-    int rest;
-    string muscleGroup;
+    string targetMuscle;
 
 public:
     StrengthWorkout();
-    StrengthWorkout(string name, int caloriesBurned, string equipment, string difficulty, string notes,
-                    int weight, int sets, int reps, int rest, string muscleGroup);
+    StrengthWorkout(string workoutName, string category, string difficulty, int duration, int caloriesBurned,
+                    int sets, int reps, string targetMuscle);
 
-    void setWeight(int w);
-    void setSets(int s);
-    void setReps(int r);
-    void setRest(int r);
-    void setMuscleGroup(string m);
+    void setSets(int sets);
+    void setReps(int reps);
+    void setTargetMuscle(string targetMuscle);
 
-    int getWeight() const;
     int getSets() const;
     int getReps() const;
-    int getRest() const;
-    string getMuscleGroup() const;
+    string getTargetMuscle() const;
 
-    void perform() const;
-    void displayStrength() const;
+    int getTotalReps() const;
 };
 
 #endif
